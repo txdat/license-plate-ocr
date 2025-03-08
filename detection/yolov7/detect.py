@@ -32,7 +32,8 @@ def detect(model, image, device, imgsz=640, conf_thres=0.25,
     stride = int(model.stride.max())  # model stride
     imgsz = check_img_size(imgsz, s=stride)  # check img_size
 
-    model.half()  # to FP16
+    if half:
+        model.half()  # to FP16
 
     # Transform image to predict
     img, im0 = transform_img(image)
@@ -117,13 +118,15 @@ def generate_LP_detection_labels():
     n_images = len(os.listdir(data_dir))
     for image_path in tqdm(os.listdir(data_dir)):
         try:
+            if image_path.endswith(".txt"):
+                continue
             # print(f"{data_dir}/{image_path}")
             img = cv2.imread(f"{data_dir}/{image_path}")
             final_pred = detect(model, img, device, imgsz=640)
 
             h, w, _ = img.shape
-            with open(f"../../data/LP_detect_labels1/{image_path}.txt", mode="w") as f:
-                image_name = image_path.rsplit('.',2)[0]
+            image_name = image_path.rsplit('.')[0]
+            with open(f"../../data/LP/{image_name}.txt", mode="w") as f:
                 for i, box in enumerate(final_pred[0]):
                     x0, y0, x1, y1, prob, label = box
                     if prob < 0.6:
@@ -132,10 +135,10 @@ def generate_LP_detection_labels():
                     y = (y0+y1)/2/h
                     bw = (x1-x0)/w
                     bh = (y1-y0)/h
-                    f.write(f"{int(label)}\t{x}\t{y}\t{bw}\t{bh}\t{prob}\n")
+                    f.write(f"0 {x} {y} {bw} {bh}\n")
 
-                    det = img[int(y0):int(y1)+1,int(x0):int(x1)+1]
-                    cv2.imwrite(f"../../data/LP_ocr1/{image_name}_{i}.jpg", det, [cv2.IMWRITE_JPEG_QUALITY, 100])
+                    # det = img[int(y0):int(y1)+1,int(x0):int(x1)+1]
+                    # cv2.imwrite(f"../../data/LP_ocr1/{image_name}_{i}.jpg", det, [cv2.IMWRITE_JPEG_QUALITY, 100])
             # break
         except Exception as err:
             print(f"{image_path}: {err}")

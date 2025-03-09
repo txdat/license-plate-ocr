@@ -8,8 +8,10 @@ from paddleocr.onnx_paddleocr import ONNXPaddleOcr
 det = ONNXDetector()
 ocr = ONNXPaddleOcr(use_angle_cls=True)
 
+
 def merge_text(text):
-    return "-".join([re.sub("[^a-zA-Z0-9.-]", "", t).upper() for t in text])
+    return " ".join([re.sub("[^a-zA-Z0-9.-]", "", t).upper() for t in text])
+
 
 img = cv2.imread(sys.argv[1])
 for plate_det in det(img):

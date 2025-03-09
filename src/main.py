@@ -30,6 +30,7 @@ def ocr():
                 plate_res.append(
                     {"box": [*box[0], *box[2]], "text": box_res[0], "conf": box_res[1]}
                 )
+            plate_res = sorted(plate_res, key=lambda x: x["box"][1])
             res.append(
                 {
                     "plate_box": plate_det["box"].tolist(),

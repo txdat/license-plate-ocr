@@ -1,0 +1,9 @@
+numpy
+opencv-python
+ultralytics
+onnx
+onnxruntime
+shapely
+pyclipper
+Flask
+uWSGI

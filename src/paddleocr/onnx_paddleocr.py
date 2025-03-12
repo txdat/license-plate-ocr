@@ -12,7 +12,7 @@ def str2bool(v):
 def init_args():
     parser = argparse.ArgumentParser()
     # params for prediction engine
-    parser.add_argument("--use_gpu", type=str2bool, default=False)
+    parser.add_argument("--use_gpu", type=str2bool, default=True)
     parser.add_argument("--use_xpu", type=str2bool, default=False)
     parser.add_argument("--use_npu", type=str2bool, default=False)
     parser.add_argument("--ir_optim", type=str2bool, default=True)
@@ -69,7 +69,8 @@ def init_args():
     parser.add_argument(
         "--rec_model_dir",
         type=str,
-        default=f"{module_dir}/models/ppocrv4/rec_onnx/ch_model.onnx",
+        # default=f"{module_dir}/models/ppocrv4/rec_onnx/ch_model.onnx",
+        default=f"{module_dir}/models/ppocrv4/rec_onnx/model.onnx",
     )
     parser.add_argument("--rec_image_inverse", type=str2bool, default=True)
     parser.add_argument("--rec_image_shape", type=str, default="3, 48, 320")
@@ -78,7 +79,8 @@ def init_args():
     parser.add_argument(
         "--rec_char_dict_path",
         type=str,
-        default=f"{module_dir}/models/ch_ppocr_server_v2.0/ppocr_keys_v1.txt",
+        # default=f"{module_dir}/models/ch_ppocr_server_v2.0/ppocr_keys_v1.txt",
+        default=f"{module_dir}/models/ch_ppocr_server_v2.0/en_dict.txt",
     )
     parser.add_argument("--use_space_char", type=str2bool, default=True)
     parser.add_argument(

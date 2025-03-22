@@ -69,24 +69,24 @@ def init_args():
     parser.add_argument(
         "--rec_model_dir",
         type=str,
-        # default=f"{module_dir}/models/ppocrv4/rec_onnx/ch_model.onnx",
-        default=f"{module_dir}/models/ppocrv4/rec_onnx/model.onnx",
+        default=f"{module_dir}/models/ppocrv4/rec_onnx/ch_model.onnx",
+        # default=f"{module_dir}/models/ppocrv4/rec_onnx/model.onnx",
     )
-    parser.add_argument("--rec_image_inverse", type=str2bool, default=True)
+    parser.add_argument("--rec_image_inverse", type=str2bool, default=False)
     parser.add_argument("--rec_image_shape", type=str, default="3, 48, 320")
-    parser.add_argument("--rec_batch_num", type=int, default=6)
+    parser.add_argument("--rec_batch_num", type=int, default=1)
     parser.add_argument("--max_text_length", type=int, default=25)
     parser.add_argument(
         "--rec_char_dict_path",
         type=str,
-        # default=f"{module_dir}/models/ch_ppocr_server_v2.0/ppocr_keys_v1.txt",
-        default=f"{module_dir}/models/ch_ppocr_server_v2.0/en_dict.txt",
+        default=f"{module_dir}/models/ch_ppocr_server_v2.0/ppocr_keys_v1.txt",
+        # default=f"{module_dir}/models/ch_ppocr_server_v2.0/en_dict.txt",
     )
     parser.add_argument("--use_space_char", type=str2bool, default=True)
     parser.add_argument(
         "--vis_font_path", type=str, default=f"{module_dir}/fonts/simfang.ttf"
     )
-    parser.add_argument("--drop_score", type=float, default=0.5)
+    parser.add_argument("--drop_score", type=float, default=0.2)
 
     # params for e2e
     parser.add_argument("--e2e_algorithm", type=str, default="PGNet")
@@ -146,7 +146,7 @@ def init_args():
     )
 
     parser.add_argument("--show_log", type=str2bool, default=True)
-    parser.add_argument("--use_onnx", type=str2bool, default=False)
+    parser.add_argument("--use_onnx", type=str2bool, default=True)
     return parser
 
 
@@ -160,7 +160,7 @@ class ONNXPaddleOcr(TextSystem):
         params = argparse.Namespace(**inference_args_dict)
 
         # params.rec_image_shape = "3, 32, 320"
-        params.rec_image_shape = "3, 48, 320"
+        params.rec_image_shape = "3, 48, 1000"
 
         # 根据传入的参数覆盖更新默认参数
         params.__dict__.update(**kwargs)

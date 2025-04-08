@@ -31,8 +31,8 @@ def init_args():
         type=str,
         default=f"{module_dir}/models/ppocrv4/det_onnx/ch_model.onnx",
     )
-    parser.add_argument("--det_limit_side_len", type=float, default=960)
-    parser.add_argument("--det_limit_type", type=str, default="max")
+    parser.add_argument("--det_limit_side_len", type=float, default=384)
+    parser.add_argument("--det_limit_type", type=str, default="min")
     parser.add_argument("--det_box_type", type=str, default="quad")
 
     # DB parmas
